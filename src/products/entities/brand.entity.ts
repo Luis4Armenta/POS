@@ -19,5 +19,5 @@ export class Brand {
   image: string;
 }
 
-export type PersonDocument = Brand & Document;
+export type BrandDocument = Brand & Document;
 export const BrandSchema = SchemaFactory.createForClass(Brand);

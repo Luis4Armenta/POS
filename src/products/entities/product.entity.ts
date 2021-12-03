@@ -78,5 +78,5 @@ registerEnumType(Status, {
   },
 });
 
-export type ProductModel = Product & Document;
+export type ProductDocument = Product & Document;
 export const ProductSchema = SchemaFactory.createForClass(Product);
