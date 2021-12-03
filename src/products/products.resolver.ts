@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ProductsService } from './services/products.service';
 import { Product } from './entities/product.entity';
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
+import { CreateProductInput, UpdateProductInput } from './dto/products.inputs';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -21,8 +21,10 @@ export class ProductsResolver {
   }
 
   @Query(() => Product, { name: 'product' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.productsService.findOne(id);
+  findOne(
+    @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
+  ) {
+    return this.productsService.findOne(_id);
   }
 
   @Mutation(() => Product)
@@ -30,13 +32,15 @@ export class ProductsResolver {
     @Args('updateProductInput') updateProductInput: UpdateProductInput,
   ) {
     return this.productsService.update(
-      updateProductInput.id,
+      updateProductInput._id,
       updateProductInput,
     );
   }
 
   @Mutation(() => Product)
-  removeProduct(@Args('id', { type: () => Int }) id: number) {
-    return this.productsService.remove(id);
+  removeProduct(
+    @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
+  ) {
+    return this.productsService.remove(_id);
   }
 }

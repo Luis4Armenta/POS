@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductInput } from '../dto/create-product.input';
-import { UpdateProductInput } from '../dto/update-product.input';
+import { CreateProductInput, UpdateProductInput } from '../dto/products.inputs';
+import { Model, Schema as MongooseSchema } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Product, ProductDocument } from '../entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  create(createProductInput: CreateProductInput) {
-    return 'This action adds a new product';
+  constructor(
+    @InjectModel(Product.name) private productModdel: Model<ProductDocument>,
+  ) {}
+
+  create(payload: CreateProductInput) {
+    const createdProduct = new this.productModdel(payload);
+    return createdProduct.save();
   }
 
   findAll() {
-    return `This action returns all products`;
+    return this.productModdel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOneById(_id: MongooseSchema.Types.ObjectId) {
+    return this.productModdel.findById(_id).exec();
   }
 
-  update(id: number, updateProductInput: UpdateProductInput) {
-    return `This action updates a #${id} product`;
+  findOneByBarcode(barcode: string) {
+    return this.productModdel.findOne({ barcode: barcode }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  update(_id: MongooseSchema.Types.ObjectId, payload: UpdateProductInput) {
+    return this.productModdel
+      .findByIdAndUpdate(_id, payload, { new: true })
+      .exec();
+  }
+
+  remove(_id: MongooseSchema.Types.ObjectId) {
+    return this.productModdel.findByIdAndDelete(_id).exec();
   }
 }
