@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 
 import { enviroments } from './enviroments';
+import { ProductsModule } from './products/products.module';
 import config from './config';
 
 @Module({
@@ -23,6 +24,7 @@ import config from './config';
       }),
     }),
     DatabaseModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
