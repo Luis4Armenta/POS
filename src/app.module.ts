@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
 
 import Joi from 'joi';
 
@@ -10,6 +11,7 @@ import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
 import { ProductsModule } from './products/products.module';
 import config from './config';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -22,6 +24,12 @@ import config from './config';
         DATABASE_NAME: Joi.string().required(),
         DATABASE_PORT: Joi.number().required(),
       }),
+    }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      playground: true,
+      debug: false,
     }),
     DatabaseModule,
     ProductsModule,

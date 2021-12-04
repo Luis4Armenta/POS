@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ProductsService } from './services/products.service';
 import { Product } from './entities/product.entity';
 import { CreateProductInput, UpdateProductInput } from './dto/products.inputs';
@@ -9,26 +9,34 @@ export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
   @Mutation(() => Product)
-  createProduct(
+  async createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,
   ) {
     return this.productsService.create(createProductInput);
   }
 
   @Query(() => [Product], { name: 'products' })
-  findAll() {
+  async findAll() {
     return this.productsService.findAll();
   }
 
   @Query(() => Product, { name: 'product' })
-  findOne(
+  async findOne(
     @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
   ) {
-    return this.productsService.findOne(_id);
+    return this.productsService.findOneById(_id);
+  }
+
+  @Query(() => Product, { name: 'product' })
+  async findOneByBarcode(
+    @Args('barcode', { type: () => String })
+    barcode: string,
+  ) {
+    return this.productsService.findOneByBarcode(barcode);
   }
 
   @Mutation(() => Product)
-  updateProduct(
+  async updateProduct(
     @Args('updateProductInput') updateProductInput: UpdateProductInput,
   ) {
     return this.productsService.update(
@@ -38,7 +46,7 @@ export class ProductsResolver {
   }
 
   @Mutation(() => Product)
-  removeProduct(
+  async removeProduct(
     @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
   ) {
     return this.productsService.remove(_id);

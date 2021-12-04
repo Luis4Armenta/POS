@@ -1,0 +1,191 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Brand {
+  """Identificador de la marca"""
+  _id: String!
+
+  """Dirección local o URL de una imagen que represente la marca"""
+  image: String!
+
+  """Nombre de la marca."""
+  name: String!
+}
+
+type Category {
+  """Identificador de la categoría dentro del sistema"""
+  _id: String!
+
+  """Dirección local o URL de una imagen que represente a la categoría"""
+  image: String!
+
+  """Nombre de la categoría"""
+  name: String!
+}
+
+input CreateBrandInput {
+  """Dirección local o URL de una imagen que represente a la nueva marca"""
+  image: String = "https://www.allianceplast.com/wp-content/uploads/no-image.png"
+
+  """Nombre de la nueva marca"""
+  name: String!
+}
+
+input CreateCategoryInput {
+  """
+  Dirección local o URL de una imagen que represente a la nueva categoría
+  """
+  image: String = "https://www.allianceplast.com/wp-content/uploads/no-image.png"
+
+  """Nombre de la nueva categoría"""
+  name: String!
+}
+
+input CreateProductInput {
+  """Código de barras del producto"""
+  barcode: String!
+
+  """Identificador de la marca a la que pertenece"""
+  brand: String!
+
+  """Identificador de la categoría a la que pertenece"""
+  category: String!
+
+  """Costo de adqusición del producto"""
+  cost: Float!
+
+  """Imagen o fotografía del producto"""
+  image: String = "https://www.allianceplast.com/wp-content/uploads/no-image.png"
+
+  """Nombre del producto"""
+  name: String!
+
+  """Precio de venta al publico"""
+  price: Float!
+
+  """Estado del articulo"""
+  status: status = INSTOCK
+
+  """Cantidad de unidades de este producto disponibles para la venta"""
+  stock: Float!
+}
+
+type Mutation {
+  createBrand(createBrandInput: CreateBrandInput!): Brand!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  removeBrand(_id: String!): Brand!
+  removeCategory(_id: String!): Category!
+  removeProduct(_id: String!): Product!
+  updateBrand(updateBrandInput: UpdateBrandInput!): Brand!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+}
+
+type Product {
+  """Identificador del producto dentro del sistema"""
+  _id: String!
+
+  """Código de barras del producto"""
+  barcode: String!
+
+  """Categoria a la que pertenece"""
+  brand: String!
+
+  """Categoría a la que pertenece el producto"""
+  category: String!
+
+  """Costo de adqusición del producto"""
+  cost: Float!
+
+  """Imagen o fotografía del producto"""
+  image: String
+
+  """Nombre del producto"""
+  name: String!
+
+  """Precio de venta al publico"""
+  price: Float!
+
+  """Estado del articulo"""
+  status: status!
+
+  """Cantidad de unidades de este producto disponibles para la venta"""
+  stock: Float!
+}
+
+type Query {
+  brand(_id: String!): Brand!
+  brands: [Brand!]!
+  categories: [Category!]!
+  category(_id: String!): Category!
+  product(barcode: String!): Product!
+  products: [Product!]!
+}
+
+input UpdateBrandInput {
+  _id: String!
+
+  """Dirección local o URL de una imagen que represente a la nueva marca"""
+  image: String = "https://www.allianceplast.com/wp-content/uploads/no-image.png"
+
+  """Nombre de la nueva marca"""
+  name: String
+}
+
+input UpdateCategoryInput {
+  _id: String!
+
+  """
+  Dirección local o URL de una imagen que represente a la nueva categoría
+  """
+  image: String = "https://www.allianceplast.com/wp-content/uploads/no-image.png"
+
+  """Nombre de la nueva categoría"""
+  name: String
+}
+
+input UpdateProductInput {
+  _id: String!
+
+  """Código de barras del producto"""
+  barcode: String
+
+  """Identificador de la marca a la que pertenece"""
+  brand: String
+
+  """Identificador de la categoría a la que pertenece"""
+  category: String
+
+  """Costo de adqusición del producto"""
+  cost: Float
+
+  """Imagen o fotografía del producto"""
+  image: String = "https://www.allianceplast.com/wp-content/uploads/no-image.png"
+
+  """Nombre del producto"""
+  name: String
+
+  """Precio de venta al publico"""
+  price: Float
+
+  """Estado del articulo"""
+  status: status = INSTOCK
+
+  """Cantidad de unidades de este producto disponibles para la venta"""
+  stock: Float
+}
+
+"""Estado del producto"""
+enum status {
+  """
+  Valor por defecto. El producto se encuentra en stock y disponible para ser vendido
+  """
+  INSTOCK
+
+  """
+  El producto se encuentra fuera de stock o tiene alguna condición que no le permite ser vendido
+  """
+  OUTSTOCK
+}
