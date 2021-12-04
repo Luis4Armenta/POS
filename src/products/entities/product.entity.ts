@@ -20,15 +20,15 @@ export class Product {
   @Prop({ required: true, unique: true })
   name: string;
 
-  @Field(() => String, { description: 'Categoria a la que pertenece' })
+  @Field(() => Brand, { description: 'Categoria a la que pertenece' })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Brand.name })
-  brand: MongooseSchema.Types.ObjectId;
+  brand: MongooseSchema.Types.ObjectId | Brand;
 
-  @Field(() => String, {
+  @Field(() => Category, {
     description: 'Categoría a la que pertenece el producto',
   })
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Category.name })
-  category: MongooseSchema.Types.ObjectId;
+  category: MongooseSchema.Types.ObjectId | Category;
 
   @Field(() => Float, { description: 'Costo de adqusición del producto' })
   @Prop({ required: true })

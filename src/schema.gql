@@ -91,10 +91,10 @@ type Product {
   barcode: String!
 
   """Categoria a la que pertenece"""
-  brand: String!
+  brand(populate: Boolean!): Brand!
 
   """Categoría a la que pertenece el producto"""
-  category: String!
+  category(populate: Boolean!): Category!
 
   """Costo de adqusición del producto"""
   cost: Float!

@@ -1,8 +1,17 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ProductsService } from './services/products.service';
-import { Product } from './entities/product.entity';
+import { Product, ProductDocument } from './entities/product.entity';
 import { CreateProductInput, UpdateProductInput } from './dto/products.inputs';
 import { Schema as MongooseSchema } from 'mongoose';
+import { Brand } from './entities/brand.entity';
+import { Category } from './entities/category.entity';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -50,5 +59,26 @@ export class ProductsResolver {
     @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
   ) {
     return this.productsService.remove(_id);
+  }
+
+  @ResolveField()
+  async brand(
+    @Parent() product: ProductDocument,
+    @Args('populate') populate: boolean,
+  ) {
+    if (populate) await product.populate({ path: 'brand', model: Brand.name });
+
+    return product.brand;
+  }
+
+  @ResolveField()
+  async category(
+    @Parent() product: ProductDocument,
+    @Args('populate') populate: boolean,
+  ) {
+    if (populate)
+      await product.populate({ path: 'category', model: Category.name });
+
+    return product.category;
   }
 }
