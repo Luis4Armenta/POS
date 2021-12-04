@@ -9,6 +9,9 @@ export class CreateBrandInput {
   @Field(() => String, {
     description:
       'Dirección local o URL de una imagen que represente a la nueva marca',
+    nullable: true,
+    defaultValue:
+      'https://www.allianceplast.com/wp-content/uploads/no-image.png',
   })
   image: string;
 }

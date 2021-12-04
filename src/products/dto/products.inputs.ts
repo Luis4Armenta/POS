@@ -35,7 +35,7 @@ export class CreateProductInput {
   @Field(() => Status, {
     description: 'Estado del articulo',
     nullable: true,
-    defaultValue: 'INSTOCK',
+    defaultValue: Status.INSTOCK,
   })
   status: Status;
 
