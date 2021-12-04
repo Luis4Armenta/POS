@@ -13,7 +13,7 @@ export class Product {
   _id: MongooseSchema.Types.ObjectId;
 
   @Field(() => String, { description: 'Código de barras del producto' })
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, index: true })
   barcode: string;
 
   @Field(() => String, { description: 'Nombre del producto' })
@@ -53,14 +53,17 @@ export class Product {
 
   @Field(() => String, {
     description: 'Imagen o fotografía del producto',
+    nullable: true,
+    defaultValue:
+      'https://www.allianceplast.com/wp-content/uploads/no-image.png',
   })
   @Prop({ required: false })
   image: string;
 }
 
 export enum Status {
-  INSTOCK,
-  OUTSTOCK,
+  INSTOCK = 'INSTOCK',
+  OUTSTOCK = 'OUTSTOCK',
 }
 
 registerEnumType(Status, {
