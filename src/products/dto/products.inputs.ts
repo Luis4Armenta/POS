@@ -29,6 +29,8 @@ export class CreateProductInput {
   @Field(() => Float, {
     description:
       'Cantidad de unidades de este producto disponibles para la venta',
+    nullable: true,
+    defaultValue: 0,
   })
   stock: number;
 

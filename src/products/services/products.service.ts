@@ -33,6 +33,20 @@ export class ProductsService {
       .exec();
   }
 
+  addStock(barcode: string, amount: number) {
+    return this.productModdel
+      .findOneAndUpdate(
+        { barcode: barcode },
+        {
+          $inc: { stock: amount },
+        },
+        {
+          new: true,
+        },
+      )
+      .exec();
+  }
+
   remove(_id: MongooseSchema.Types.ObjectId) {
     return this.productModdel.findByIdAndDelete(_id).exec();
   }
