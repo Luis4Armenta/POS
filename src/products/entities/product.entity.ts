@@ -41,6 +41,8 @@ export class Product {
   @Field(() => Float, {
     description:
       'Cantidad de unidades de este producto disponibles para la venta',
+    defaultValue: 0,
+    nullable: true,
   })
   @Prop({ required: true })
   stock: number;

@@ -5,6 +5,7 @@ import {
   Args,
   ResolveField,
   Parent,
+  Float,
 } from '@nestjs/graphql';
 import { ProductsService } from './services/products.service';
 import { Product, ProductDocument } from './entities/product.entity';
@@ -70,6 +71,14 @@ export class ProductsResolver {
   @Mutation(() => Sale)
   async doSale(@Args('doSaleInput') doSaleInput: DoSaleInput) {
     return this.saleService.doSale(doSaleInput);
+  }
+
+  @Mutation(() => Product)
+  async addStock(
+    @Args('barcode', { type: () => String }) barcode: string,
+    @Args('amount', { type: () => Float }) amount: number,
+  ) {
+    return this.productsService.addStock(barcode, amount);
   }
 
   @ResolveField()

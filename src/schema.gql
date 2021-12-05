@@ -68,7 +68,7 @@ input CreateProductInput {
   status: status = INSTOCK
 
   """Cantidad de unidades de este producto disponibles para la venta"""
-  stock: Float!
+  stock: Float = 0
 }
 
 """
@@ -82,6 +82,7 @@ input DoSaleInput {
 }
 
 type Mutation {
+  addStock(amount: Float!, barcode: String!): Product!
   createBrand(createBrandInput: CreateBrandInput!): Brand!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createProduct(createProductInput: CreateProductInput!): Product!
@@ -123,7 +124,7 @@ type Product {
   status: status!
 
   """Cantidad de unidades de este producto disponibles para la venta"""
-  stock: Float!
+  stock: Float
 }
 
 type ProductSale {
@@ -227,7 +228,7 @@ input UpdateProductInput {
   status: status = INSTOCK
 
   """Cantidad de unidades de este producto disponibles para la venta"""
-  stock: Float
+  stock: Float = 0
 }
 
 """Estado del producto"""
