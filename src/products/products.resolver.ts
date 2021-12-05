@@ -12,10 +12,16 @@ import { CreateProductInput, UpdateProductInput } from './dto/products.inputs';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Brand } from './entities/brand.entity';
 import { Category } from './entities/category.entity';
+import { Sale } from './entities/sale.entity';
+import { DoSaleInput } from './dto/sale.inputs';
+import { SaleService } from './services/sale.service';
 
 @Resolver(() => Product)
 export class ProductsResolver {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly saleService: SaleService,
+  ) {}
 
   @Mutation(() => Product)
   async createProduct(
@@ -59,6 +65,11 @@ export class ProductsResolver {
     @Args('_id', { type: () => String }) _id: MongooseSchema.Types.ObjectId,
   ) {
     return this.productsService.remove(_id);
+  }
+
+  @Mutation(() => Sale)
+  async doSale(@Args('doSaleInput') doSaleInput: DoSaleInput) {
+    return this.saleService.doSale(doSaleInput);
   }
 
   @ResolveField()

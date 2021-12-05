@@ -71,10 +71,21 @@ input CreateProductInput {
   stock: Float!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DoSaleInput {
+  """identificadores de los productos comprados y cantidad"""
+  products: [SaleDetailInput!]!
+}
+
 type Mutation {
   createBrand(createBrandInput: CreateBrandInput!): Brand!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createProduct(createProductInput: CreateProductInput!): Product!
+  doSale(doSaleInput: DoSaleInput!): Sale!
   removeBrand(_id: String!): Brand!
   removeCategory(_id: String!): Category!
   removeProduct(_id: String!): Product!
@@ -115,6 +126,29 @@ type Product {
   stock: Float!
 }
 
+type ProductSale {
+  """Identificador único del producto vendido"""
+  _id: String!
+
+  """Cantidad o número de piezas del producto vendido"""
+  amount: Float!
+
+  """Costo unitario del producto cuando fue vendido"""
+  cost: Float!
+
+  """Nombre del producto vendido"""
+  name: String!
+
+  """Precio unitario al publico cuando el producto fue vendido"""
+  price: Float!
+
+  """Total del costo por la cantidad"""
+  totalCost: Float!
+
+  """Total del precio por la cantidad"""
+  totalPrice: Float!
+}
+
 type Query {
   brand(_id: String!): Brand!
   brands: [Brand!]!
@@ -122,6 +156,25 @@ type Query {
   category(_id: String!): Category!
   product(barcode: String!): Product!
   products: [Product!]!
+}
+
+type Sale {
+  """Identificador único de cada venta"""
+  _id: String!
+
+  """Fecha y hora de la venta"""
+  date: DateTime!
+
+  """Productos de la venta en esa hora y fecha"""
+  products: [ProductSale!]!
+
+  """Total de la suma de los precios de los productos y sus cantidades"""
+  total: Float!
+}
+
+input SaleDetailInput {
+  _id: String!
+  amount: Float!
 }
 
 input UpdateBrandInput {

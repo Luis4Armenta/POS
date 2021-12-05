@@ -10,6 +10,7 @@ import { BrandsService } from './services/brands.service';
 import { CategoriesResolver } from './categories.resolver';
 import { BrandsResolver } from './brands.resolver';
 import { Sale, SaleSchema } from './entities/sale.entity';
+import { SaleService } from './services/sale.service';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { Sale, SaleSchema } from './entities/sale.entity';
     ProductsService,
     CategorysService,
     BrandsService,
+    SaleService,
   ],
 })
 export class ProductsModule {}
